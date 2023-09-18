@@ -18,7 +18,7 @@ Before using this tool, make sure you have the following environment variables s
 
 ## Docker
 
-If you are running Temporal in a Docker container, ensure that you have the necessary Docker configurations set up correctly.
+Docker integration is still under development.
 
 ## Installation
 
@@ -33,7 +33,7 @@ To install the **TCTL Temporal Helper**, follow these steps:
 2. Navigate to the project directory:
 
     ```bash
-    cd your_repository
+    cd temporal_tctl
     ```
 
 3. Install the necessary dependencies:
@@ -46,16 +46,16 @@ To install the **TCTL Temporal Helper**, follow these steps:
 
 Once you have installed the **TCTL Temporal Helper**, you can use it as follows:
 
-1. Set the required environment variables (`PORT`, `TEMPORAL_CLIENT`, `MAIN_PROCESS`, `INITIAL_ARGUMENTS`) in your environment or in a configuration file.
+1. Set the required environment variables (`PORT`, `TEMPORAL_CLIENT`, `MAIN_PROCESS`, `INITIAL_ARGUMENTS`) in your environment or in a `.env` file.
 
-2. Run the TCTL Temporal Helper with the desired arguments to interact with Temporal:
+2. Run the TCTL Temporal Helper :
 
     ```bash
-    node tctl-temporal-helper.js [options]
+    node .
     ```
+3. Access your localhost with your setted `PORT` (e.g, https://localhost:3333)
 
-    - `[options]`: Specify the options and commands you want to execute with TCTL Temporal Helper.
-
+4. Submit data from UI.
 ## Example
 
 Here's an example of how to use the TCTL Temporal Helper to interact with Temporal:
@@ -63,12 +63,12 @@ Here's an example of how to use the TCTL Temporal Helper to interact with Tempor
 ```bash
 # Set the environment variables
 export PORT=3778
-export TEMPORAL_CLIENT=my_temporal_config
-export MAIN_PROCESS=my_workflow
+export TEMPORAL_CLIENT="http://my_temporal_client:9999"
+export MAIN_PROCESS=docker
 export INITIAL_ARGUMENTS=exec,temporal-admin-tools
 
 # Run TCTL Temporal Helper
-node tctl-temporal-helper.js --command submit --workflow my_workflow
+node .
 ```
 
 In this example, we first set the required environment variables and then use TCTL Temporal Helper to submit a workflow named `my_workflow`.
