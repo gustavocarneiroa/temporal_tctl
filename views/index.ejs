@@ -39,6 +39,9 @@
     <label for="taskqueue" class="block font-semibold mt-2">Task Queue:</label>
     <input type="text" id="taskqueue" name="taskqueue" class="w-full border border-gray-300 rounded p-2" required>
 
+    <label for="timeout" class="block font-semibold mt-2">Timeout: <small>(Optional, keep empty to Unlimited or use miliseconds/<a class="text-blue-500 underline" target="_blank" href="https://www.npmjs.com/package/ms?activeTab=readme">ms-string refference</a>)</small></label>
+    <input type="text" id="timeout" name="timeout" class="w-full border border-gray-300 rounded p-2" placeholder="42 minutes">
+
     <h2 class="text-xl font-semibold mt-4">Inputs
       <button type="button" id="addInput"
         class="bg-blue-500 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Add Input</button>

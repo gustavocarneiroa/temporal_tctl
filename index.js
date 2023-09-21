@@ -15,13 +15,14 @@ app.get('/', (_, res) => res.redirect('/temporal'))
 app.get('/temporal', (_, res) => res.render('index'))
 
 app.post('/temporal', async (req, res) => {
-    const { namespace, workflowId, workflowType, taskqueue, input, startNew } = req.body;
+    const { namespace, workflowId, workflowType, taskqueue, input, startNew, timeout } = req.body;
     const _id = crypto.randomBytes(20).toString('hex');
     const inputs = []
     const options = {
         namespace,
         taskQueue: taskqueue,
         workflowType,
+        timeout,
         workflowId: workflowId + `${!!+startNew ? "-" + _id : ''}` 
     }
     if(!Array.isArray(input)) {
@@ -29,16 +30,18 @@ app.post('/temporal', async (req, res) => {
     } else {
         inputs.push(...input.map( i => normalizeObjectId(i)))
     }
-    const cli_process = await startWorkflow(options, ...inputs)
+    const {cli, spawn: cli_process} = await startWorkflow(options, ...inputs)
     cli_process.stdout.on('data', (data) => {
         const dataBuffer = data.toString()
         if(dataBuffer.trim().toLowerCase().startsWith("error")) {
             return res.render("error", {
                 data: dataBuffer,
+                cli: cli,
             });
         }
         res.render("successful", {
             data: dataBuffer,
+            cli: cli,
             temporal_client: process.env.TEMPORAL_CLIENT,
             namespace,
             workflow_id: workflowId + `${!!+startNew ? "-" + _id : ''}`,
@@ -48,7 +51,8 @@ app.post('/temporal', async (req, res) => {
     
     cli_process.stderr.on('data', (error) => {
         res.send('error', {
-            data: error
+            data: error,
+            cli: cli,
         })
     });
     
@@ -57,7 +61,7 @@ app.post('/temporal', async (req, res) => {
     });
 })
 
-app.listen(port)
+app.listen(port, () => console.log("Server is running at port " + port))
 
 function normalizeObjectId(jsonString) {
     if(!jsonString) return
