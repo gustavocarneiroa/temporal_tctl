@@ -1,28 +1,29 @@
-# TCTL TEMPORAL HELPER
+# TEMPORAL WORKFLOW HELPER
 
 ## Description
 
-The **TCTL Temporal Helper** is a utility designed to facilitate the submission of data to Temporal using the Temporal Command-Line Interface (TCTL). It streamlines the process of sending data to Temporal, making it easier to interact with Temporal workflows and activities.
+The **Temporal Workflow Helper** is a utility designed to facilitate the submission of data to Temporal using the new Temporal Command-Line Interface (Temporal CLI). It streamlines the process of sending data to Temporal, making it easier to interact with Temporal workflows and activities.
 
 ## Prerequisites
-
 Before using this tool, make sure you have the following environment variables set up:
 
 - `PORT`: The port number to communicate with Temporal. (e.g., `3778`)
-
-- `TEMPORAL_CLIENT`: Temporal client configuration, including connection details.
-
-- `MAIN_PROCESS`: Specify the main process or entry point for your Temporal workflows.
-
-- `INITIAL_ARGUMENTS`: Initial arguments to be passed when invoking Temporal, typically used for executing Temporal admin tools.
+- `TEMPORAL_SERVER`: The temporal server you already started. Should be your `localhost` or your docker host. (e.g., `localhost:7233`, `temporal:7233`).
+- `TEMPORAL_UI_CLIENT`: Temporal UI client URL.
+- `TEMPORAL_MAIN_PROCESS`: Specify the main process or entry point for your Temporal workflows. Should be `temporal` for localhost or `/root/.temporalio/bin/temporal`, if you're using Docker.
+- `TEMPORAL_EXTERNAL_NETWORK`: Docker only. Especify your temporal network.
+- `NAMESPACE`: Main namespace of your workflows.
 
 ## Docker
+Use `docker-compose` + `Makefile` to facilitate your experience. Run the command bellow to build and initiate your Helper:
 
-Docker integration is still under development.
+```bash
+make build
+```
 
 ## Installation
 
-To install the **TCTL Temporal Helper**, follow these steps:
+To install the **Temporal Workflow Helper**, follow these steps:
 
 1. Clone the repository to your local machine:
 
@@ -42,36 +43,38 @@ To install the **TCTL Temporal Helper**, follow these steps:
     npm install
     ```
 
+4. Install Temporal CLI:
+    - Bash:
+    ```bash
+    curl -sSf https://temporal.download/cli.sh | sh
+    echo export PATH="\$PATH:/root/.temporalio/bin" >> ~/.bashrc
+    ```
+    - ZSH:
+     ```bash
+    curl -sSf https://temporal.download/cli.sh | sh
+    echo export PATH="\$PATH:/root/.temporalio/bin" >> ~/.zshrc
+    ```
 ## Usage
 
-Once you have installed the **TCTL Temporal Helper**, you can use it as follows:
+Once you have installed the **Temporal Workflow Helper**, you can use it as follows:
 
-1. Set the required environment variables (`PORT`, `TEMPORAL_CLIENT`, `MAIN_PROCESS`, `INITIAL_ARGUMENTS`) in your environment or in a `.env` file.
+1. Set the required environment variables (`PORT`, `TEMPORAL_SERVER`, `TEMPORAL_UI_CLIENT`, `TEMPORAL_MAIN_PROCESS`, `TEMPORAL_EXTERNAL_NETWORK`, `NAMESPACE`) in your environment or in a `.env` file. You can copy the main strucuture using `cp .env.example .env`
 
 2. Run the TCTL Temporal Helper :
-
+    - Localhost:
     ```bash
     node .
     ```
+    - Docker: 
+    ```bash
+    #if builded
+    make up
+    #else
+    make build
+    ```
 3. Access your localhost with your setted `PORT` (e.g, https://localhost:3333)
 
-4. Submit data from UI.
-## Example
-
-Here's an example of how to use the TCTL Temporal Helper to interact with Temporal:
-
-```bash
-# Set the environment variables
-export PORT=3778
-export TEMPORAL_CLIENT="http://my_temporal_client:9999"
-export MAIN_PROCESS=docker
-export INITIAL_ARGUMENTS=exec,temporal-admin-tools
-
-# Run TCTL Temporal Helper
-node .
-```
-
-In this example, we first set the required environment variables and then use TCTL Temporal Helper to submit a workflow named `my_workflow`.
+4. Submit data from the helper UI.
 
 ## Contributing
 

@@ -11,8 +11,8 @@ services:
     volumes:
       - .:/app
     networks:
-      - temporal-network
+      - $TEMPORAL_EXTERNAL_NETWORK
 networks:
   temporal-network:
-    name: temporal-network
+    name: $TEMPORAL_EXTERNAL_NETWORK
     external: true

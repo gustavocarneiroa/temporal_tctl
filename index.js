@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { startWorkflow, initTemporal } = require('./tctl')
+const { startWorkflow, initTemporal } = require('./temporal.service')
 const bodyParser = require('body-parser')
 const crypto = require('crypto');
 require('dotenv').config()
@@ -35,9 +35,9 @@ app.post('/temporal', async (req, res) => {
 
     if(!stderr) {
         return res.render("successful", {
-            data: stdout,
+            data: stdout.trim(),
             cli: cli,
-            temporal_client: process.env.TEMPORAL_CLIENT,
+            temporal_client: process.env.TEMPORAL_UI_CLIENT,
             namespace,
             workflow_id: workflowId + `${!!+startNew ? "-" + _id : ''}`,
             run_id: stdout.split('\n')?.[2]?.split("RunId")[1]?.trim() ?? ""
@@ -45,7 +45,7 @@ app.post('/temporal', async (req, res) => {
     }
     
     return res.render('error', {
-        data: stderr,
+        data: stderr.trim(),
         cli: cli,
     })
 

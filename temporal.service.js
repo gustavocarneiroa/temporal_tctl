@@ -3,8 +3,8 @@ const exec = util.promisify(require('node:child_process').exec);
 const ms = require("ms");
 
 async function initTemporal(namespace, server) {
-    await exec(`${process.env.MAIN_PROCESS} env set prod.namespace ${namespace}`)
-    await exec(`${process.env.MAIN_PROCESS} env set prod.address ${server}`)
+    await exec(`${process.env.TEMPORAL_MAIN_PROCESS} env set prod.namespace ${namespace}`)
+    await exec(`${process.env.TEMPORAL_MAIN_PROCESS} env set prod.address ${server}`)
 }
 
 async function startWorkflow(options = {}, ...inputList) {   
@@ -12,7 +12,6 @@ async function startWorkflow(options = {}, ...inputList) {
     const inputsMap = inputList.map(input => {
         return ["--input", input]
     }).flat()
-    const initial_arguments = process.env.INITIAL_ARGUMENTS ? process.env.INITIAL_ARGUMENTS.split(',')  : []
 
     const execution_timeout = []
     if(!!(options.timeout && options.timeout.trim())) {
@@ -25,7 +24,6 @@ async function startWorkflow(options = {}, ...inputList) {
     }
 
     const _arguments = [
-        ...initial_arguments,
         'workflow', 'start',
         "--env", "prod",
         '--namespace', options.namespace,
@@ -36,7 +34,7 @@ async function startWorkflow(options = {}, ...inputList) {
         ...inputsMap,
         
     ].filter(f => f);
-    const cli = [process.env.MAIN_PROCESS, ..._arguments].join(' ')
+    const cli = [process.env.TEMPORAL_MAIN_PROCESS, ..._arguments].join(' ')
     let stdout = null;
     let stderr = null;
     try {
@@ -47,7 +45,9 @@ async function startWorkflow(options = {}, ...inputList) {
     }
     catch (err) {
         stdout = null;
-        stderr = "Error processing TCTL: " + err
+        console.log("Error processing TCTL:" + cli);
+        console.error(err)
+        stderr = `${err}`
     }
     return {
         stdout, 
