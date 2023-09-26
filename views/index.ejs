@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
   <meta charset="UTF-8">
@@ -8,48 +8,57 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
-  <h1 class="text-3xl font-bold mb-4" style="display: flex;align-items: center;">
-    <svg width="72px" height="72px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" role="img" aria-labelledby="temporalLogoTitleID">
-      <path id="Path"
-        d="M65.816 34.224 C63.684 18.251 58.288 4.917 49.999 4.917 41.711 4.917 36.314 18.251 34.182 34.224 18.208 36.357 4.874 41.753 4.874 50.042 4.874 58.33 18.211 63.727 34.182 65.859 36.314 81.83 41.711 95.167 49.999 95.167 58.288 95.167 63.684 81.83 65.816 65.859 81.79 63.727 95.124 58.33 95.124 50.042 95.124 41.753 81.788 36.357 65.816 34.224 Z M33.661 61.206 C18.363 58.997 9.44 53.939 9.44 50.042 9.44 46.144 18.363 41.087 33.661 38.877 33.324 42.56 33.149 46.319 33.149 50.042 33.149 53.764 33.324 57.526 33.661 61.206 Z M49.999 9.483 C53.897 9.483 58.954 18.405 61.164 33.703 57.483 33.367 53.721 33.191 49.999 33.191 46.277 33.191 42.515 33.367 38.835 33.703 41.044 18.405 46.102 9.483 49.999 9.483 Z M66.338 61.206 C65.585 61.316 62.496 61.678 61.715 61.755 61.638 62.539 61.273 65.625 61.166 66.378 58.956 81.676 53.899 90.598 50.001 90.598 46.104 90.598 41.047 81.676 38.837 66.378 38.73 65.625 38.365 62.536 38.288 61.755 37.932 58.129 37.717 54.234 37.717 50.042 37.717 45.85 37.932 41.954 38.288 38.326 41.914 37.97 45.809 37.755 50.001 37.755 54.194 37.755 58.089 37.97 61.715 38.326 62.499 38.403 65.585 38.767 66.338 38.875 81.636 41.085 90.56 46.144 90.56 50.039 90.56 53.935 81.636 58.997 66.338 61.206 Z"
-        stroke="black" fill="black"></path>
-    </svg>
-    Temporal TCTL Helper
-  </h1>
-  <form id="workflowForm" class="bg-white p-4 rounded-lg shadow-md" method="post">
-    <label for="namespace" class="block font-semibold">Namespace:</label>
-    <input type="text" id="namespace" name="namespace" class="w-full border border-gray-300 rounded p-2" required>
-
-    <label for="workflowId" class="block font-semibold mt-2">Workflow ID:</label>
-    <input type="text" id="workflowId" name="workflowId" class="w-full border border-gray-300 rounded p-2" required>
-
-    <label class="relative inline-flex items-center cursor-pointer">
-      <input type="checkbox" id="startNew" name="startNew" value="1" class="sr-only peer">
-      <div
-        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-      </div>
-      <span class="ml-3 text-sm font-medium text-gray-900">New workflow with UUID</span>
-    </label>
-
-    <label for="workflowType" class="block font-semibold mt-2">Workflow Type:</label>
-    <input type="text" id="workflowType" name="workflowType" class="w-full border border-gray-300 rounded p-2" required>
-
-    <label for="taskqueue" class="block font-semibold mt-2">Task Queue:</label>
-    <input type="text" id="taskqueue" name="taskqueue" class="w-full border border-gray-300 rounded p-2" required>
-
-    <label for="timeout" class="block font-semibold mt-2">Timeout: <small>(Optional, keep empty to Unlimited or use miliseconds/<a class="text-blue-500 underline" target="_blank" href="https://www.npmjs.com/package/ms?activeTab=readme">ms-string refference</a>)</small></label>
-    <input type="text" id="timeout" name="timeout" class="w-full border border-gray-300 rounded p-2" placeholder="42 minutes">
-
-    <h2 class="text-xl font-semibold mt-4">Inputs
-      <button type="button" id="addInput"
-        class="bg-blue-500 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Add Input</button>
-    </h2>
-    <div id="inputsContainer" class="mt-2"></div>
-    <button type="submit"
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2">Send</button>
-  </form>
+<body class="bg-gray-100 dark:bg-gray-900">
+  <div class="flex flex-col items-center justify-center h-screen p-4">
+    <h1 class="text-3xl font-bold mb-4 dark:text-white" style="display: flex;align-items: center;">
+      <svg width="72px" height="72px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" role="img" aria-labelledby="temporalLogoTitleID">
+        <path id="Path"
+          d="M65.816 34.224 C63.684 18.251 58.288 4.917 49.999 4.917 41.711 4.917 36.314 18.251 34.182 34.224 18.208 36.357 4.874 41.753 4.874 50.042 4.874 58.33 18.211 63.727 34.182 65.859 36.314 81.83 41.711 95.167 49.999 95.167 58.288 95.167 63.684 81.83 65.816 65.859 81.79 63.727 95.124 58.33 95.124 50.042 95.124 41.753 81.788 36.357 65.816 34.224 Z M33.661 61.206 C18.363 58.997 9.44 53.939 9.44 50.042 9.44 46.144 18.363 41.087 33.661 38.877 33.324 42.56 33.149 46.319 33.149 50.042 33.149 53.764 33.324 57.526 33.661 61.206 Z M49.999 9.483 C53.897 9.483 58.954 18.405 61.164 33.703 57.483 33.367 53.721 33.191 49.999 33.191 46.277 33.191 42.515 33.367 38.835 33.703 41.044 18.405 46.102 9.483 49.999 9.483 Z M66.338 61.206 C65.585 61.316 62.496 61.678 61.715 61.755 61.638 62.539 61.273 65.625 61.166 66.378 58.956 81.676 53.899 90.598 50.001 90.598 46.104 90.598 41.047 81.676 38.837 66.378 38.73 65.625 38.365 62.536 38.288 61.755 37.932 58.129 37.717 54.234 37.717 50.042 37.717 45.85 37.932 41.954 38.288 38.326 41.914 37.97 45.809 37.755 50.001 37.755 54.194 37.755 58.089 37.97 61.715 38.326 62.499 38.403 65.585 38.767 66.338 38.875 81.636 41.085 90.56 46.144 90.56 50.039 90.56 53.935 81.636 58.997 66.338 61.206 Z"
+          stroke="black" fill="white"></path>
+      </svg>
+      Temporal TCTL Helper
+    </h1>
+    <form id="workflowForm" class="bg-white p-4 rounded-lg shadow-md dark:bg-gray-800" method="post">
+      <label for="namespace" class="block font-semibold dark:text-white">Namespace:</label>
+      <input type="text" id="namespace" name="namespace"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  
+      <label for="workflowId" class="block font-semibold dark:text-white mt-2">Workflow ID:</label>
+      <input type="text" id="workflowId" name="workflowId"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" id="startNew" name="startNew" value="1" class="sr-only peer">
+        <div
+          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+        </div>
+        <span class="ml-3 text-sm font-medium dark:text-gray-400">New workflow with UUID</span>
+      </label>
+  
+      <label for="workflowType" class="block font-semibold dark:text-white mt-2">Workflow Type:</label>
+      <input type="text" id="workflowType" name="workflowType"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  
+      <label for="taskqueue" class="block font-semibold dark:text-white mt-2">Task Queue:</label>
+      <input type="text" id="taskqueue" name="taskqueue"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  
+      <label for="timeout" class="block font-semibold dark:text-white mt-2">Timeout: <small>(Optional, keep empty to Unlimited or use
+          miliseconds/<a class="text-blue-500 underline" target="_blank"
+            href="https://www.npmjs.com/package/ms?activeTab=readme">ms-string refference</a>)</small></label>
+      <input type="text" id="timeout" name="timeout"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="42 minutes">
+  
+      <h2 class="text-xl font-semibold dark:text-white mt-4 dark:text-white">Inputs
+        <button type="button" id="addInput"
+          class="bg-blue-500 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Add Input</button>
+      </h2>
+      <div id="inputsContainer" class="mt-2"></div>
+      <button type="submit"
+        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2">Send</button>
+    </form>
+  </div>
 
   <script>
     function formatData(data) {
@@ -72,11 +81,11 @@
       inputEditor.classList.add('input-editor', 'mb-2');
       inputEditor.innerHTML = `
       <div style="display:flex;align-items:center "">
-        <label for="input${inputCount}" class="block font-semibold">Input ID #${inputCount}</label>
+        <label for="input${inputCount}" class="block font-semibold dark:text-white">Input ID #${inputCount}</label>
         <button type="button" class="bg-red-500 text-sm hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-1"
           onclick="removeInput(${inputCount})">Remove</button>
       </div>
-        <textarea id="input${inputCount}" name="input" class="w-full border border-gray-300 rounded p-2">${inputValue}</textarea>
+        <textarea id="input${inputCount}" name="input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">${inputValue}</textarea>
       `;
       inputsContainer.appendChild(inputEditor);
     }

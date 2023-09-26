@@ -8,8 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white">
+<body class="dark bg-gray-100 dark:bg-gray-800">
+  <div class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full">
     <div class="text-center">
       <div class="inline-flex rounded-full bg-red-100 p-4">
         <div class="rounded-full stroke-red-600 bg-red-200 p-4">
@@ -21,29 +21,29 @@
           </svg>
         </div>
       </div>
-      <h1 class="mt-5 text-[36px] font-bold text-slate-800 lg:text-[50px]">Error</h1>
+      <h1 class="mt-5 text-[36px] font-bold text-slate-800 dark:text-neutral-50 lg:text-[50px]">Error</h1>
       <div
         class="block rounded-lg bg-white text-left shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-red-500 dark:bg-red-500">
         <div class="p-6">
           <h5 class="mb-1 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
             TCTL Generated
           </h5>
-          <p id="cli" class="mb-4 text-base  leading-normal text-neutral-600 dark:text-neutral-200">
+          <p id="cli" class="mb-4 text-base leading-normal text-white">
             <%=cli%>
           </p>
           <a type="button" href="#"
-            class="pointer-events-auto mr-5 inline-block cursor-pointer rounded text-base font-normal leading-normal text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 text-neutral-800 dark:text-neutral-50"
+            class="pointer-events-auto mr-5 inline-block cursor-pointer rounded text-base font-normal leading-normal text-primary transition duration-150 ease-in-out hover:text-primary-600 dark:hover:text-primary-600 focus:text-primary-600 dark:focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 text-neutral-800 dark:text-neutral-50"
             onclick="navigator.clipboard.writeText(document.querySelector('#cli').innerText.trim());alert('TCTL copied to clipboard')">
             Copy to clipboard
           </a>
         </div>
       </div>
-      <p class="text-slate-600 mt-5 lg:text-lg" style="white-space: break-spaces;">
-        <%=data%>.
+      <p class="text-slate-600 mt-5 lg:text-lg text-white" style="white-space: break-spaces; text-align: left;">
+        <%=data%>
       </p>
       <div class="flex flex-col items-center mt-5">
-        <p class="mt-1 text-md font-light text-gray-500">
-          Do you wish to start another workflow?<a href="/temporal" class="ml-1 font-medium text-blue-400">Click
+        <p class="mt-1 text-md font-light text-white">
+          Do you wish to start another workflow?<a href="/temporal" class="ml-1 font-medium text-blue-400 dark:text-blue-400">Click
             here</a>
         </p>
       </div>

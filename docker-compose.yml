@@ -7,6 +7,12 @@ services:
     ports:
       - "3778:3778"
     environment:
-      - NODE_ENV=developed
+      - NODE_ENV=development
     volumes:
       - .:/app
+    networks:
+      - temporal-network
+networks:
+  temporal-network:
+    name: temporal-network
+    external: true

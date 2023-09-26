@@ -1,7 +1,13 @@
-const { spawn } = require('child_process');
+const util = require('node:util');
+const exec = util.promisify(require('node:child_process').exec);
 const ms = require("ms");
 
-function startWorkflow(options = {}, ...inputList) {   
+async function initTemporal(namespace, server) {
+    await exec(`${process.env.MAIN_PROCESS} env set prod.namespace ${namespace}`)
+    await exec(`${process.env.MAIN_PROCESS} env set prod.address ${server}`)
+}
+
+async function startWorkflow(options = {}, ...inputList) {   
     inputList = inputList.filter(i => i)
     const inputsMap = inputList.map(input => {
         return ["--input", input]
@@ -10,7 +16,7 @@ function startWorkflow(options = {}, ...inputList) {
 
     const execution_timeout = []
     if(!!(options.timeout && options.timeout.trim())) {
-        execution_timeout.push('--execution_timeout')
+        execution_timeout.push('--execution-timeout')
         if(isNaN(options.timeout)) {
             execution_timeout.push(ms(options.timeout) / 1000)
         } else {
@@ -20,22 +26,37 @@ function startWorkflow(options = {}, ...inputList) {
 
     const _arguments = [
         ...initial_arguments,
-        'tctl',
-        '--ns', options.namespace,
         'workflow', 'start',
-        '--workflow_id', options.workflowId,
-        '--taskqueue', options.taskQueue,
-        '--workflow_type', options.workflowType,
+        "--env", "prod",
+        '--namespace', options.namespace,
+        '--workflow-id', options.workflowId,
+        '--task-queue', options.taskQueue,
+        '--type', options.workflowType,
         ...execution_timeout,
         ...inputsMap,
+        
     ].filter(f => f);
-
+    const cli = [process.env.MAIN_PROCESS, ..._arguments].join(' ')
+    let stdout = null;
+    let stderr = null;
+    try {
+        console.log("Executing CLI: " + cli);
+        let { stdout: out, stderr: err } = await exec(cli)
+        stdout = out;
+        stderr = err;
+    }
+    catch (err) {
+        stdout = null;
+        stderr = "Error processing TCTL: " + err
+    }
     return {
-        spawn: spawn(process.env.MAIN_PROCESS, _arguments),
-        cli: [process.env.MAIN_PROCESS, ..._arguments].join(' ')
+        stdout, 
+        stderr,
+        cli
     };
 }
 
 module.exports = {
-    startWorkflow
+    startWorkflow,
+    initTemporal
 }
