@@ -10,7 +10,7 @@ async function initTemporal(namespace, server) {
 async function startWorkflow(options = {}, ...inputList) {   
     inputList = inputList.filter(i => i)
     const inputsMap = inputList.map(input => {
-        return ["--input", input]
+        return ["--input", convertToJsonString(input)]
     }).flat()
 
     const execution_timeout = []
@@ -59,4 +59,10 @@ async function startWorkflow(options = {}, ...inputList) {
 module.exports = {
     startWorkflow,
     initTemporal
+}
+
+
+function convertToJsonString(jsonString) {
+    const jsonStringWithoutNewlines = jsonString.replace(/\n|\r/g, '').replace(/"/g, '\\"');
+    return `"${jsonStringWithoutNewlines}"`;
 }
