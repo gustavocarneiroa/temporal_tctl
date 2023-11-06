@@ -4,7 +4,7 @@ const { startWorkflow, initTemporal } = require('./temporal.service')
 const bodyParser = require('body-parser')
 const crypto = require('crypto');
 require('dotenv').config()
-initTemporal(process.env.NAMESPACE, process.env.TEMPORAL_SERVER)
+initTemporal()
 
 const port = process.env.PORT
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -13,14 +13,14 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
 app.get('/', (_, res) => res.redirect('/temporal'))
-app.get('/temporal', (_, res) => res.render('index'))
+app.get('/temporal', (_, res) => res.render('index', { environments: global.environments}))
 
 app.post('/temporal', async (req, res) => {
-    const { namespace, workflowId, workflowType, taskqueue, input, startNew, timeout } = req.body;
+    const { environment, workflowId, workflowType, taskqueue, input, startNew, timeout } = req.body;
     const _id = crypto.randomBytes(20).toString('hex');
     const inputs = []
     const options = {
-        namespace,
+        environment,
         taskQueue: taskqueue,
         workflowType,
         timeout,
@@ -34,11 +34,12 @@ app.post('/temporal', async (req, res) => {
     const {cli, stderr, stdout} = await startWorkflow(options, ...inputs)
 
     if(!stderr) {
+        const settedEnvironment  = global.environments.find((env) => env.environment == options.environment)
         return res.render("successful", {
             data: stdout.trim(),
             cli: cli,
-            temporal_client: process.env.TEMPORAL_UI_CLIENT,
-            namespace,
+            temporal_client: settedEnvironment.ui,
+            namespace: settedEnvironment.namespace,
             workflow_id: workflowId + `${!!+startNew ? "-" + _id : ''}`,
             run_id: stdout.split('\n')?.[2]?.split("RunId")[1]?.trim() ?? ""
         });

@@ -21,9 +21,12 @@
       Temporal Workflow Helper
     </h1>
     <form id="workflowForm" class="bg-white p-4 rounded-lg shadow-md dark:bg-gray-800" method="post">
-      <label for="namespace" class="block font-semibold dark:text-white">Namespace:</label>
-      <input type="text" id="namespace" name="namespace"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      <label for="environment" class="block font-semibold dark:text-white">Environment:</label>
+      <select id="environment" name="environment" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        <% for(const env of environments) { %>
+          <option value="<%=env.environment%>"> <%=env.environment.toUpperCase()%> | <%=env.namespace%> | <%=env.address%></option>
+        <% } %>
+      </select>
   
       <label for="workflowId" class="block font-semibold dark:text-white mt-2">Workflow ID:</label>
       <input type="text" id="workflowId" name="workflowId"
@@ -108,7 +111,7 @@
     });
 
     const storedData = JSON.parse(localStorage.getItem('workflowData')) || {};
-    const { namespace = '', workflowId = '', workflowType = '', taskqueue = '', inputs = [], startNew = 0 } = storedData;
+    const { environment = '', workflowId = '', workflowType = '', taskqueue = '', inputs = [], startNew = 0 } = storedData;
 
     if (inputs.length) {
       inputs.forEach(input => {
@@ -117,7 +120,7 @@
       })
     }
 
-    document.getElementById('namespace').value = namespace;
+    document.getElementById('environment').value = environment;
     document.getElementById('workflowId').value = workflowId;
     document.getElementById('workflowType').value = workflowType;
     document.getElementById('taskqueue').value = taskqueue;

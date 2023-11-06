@@ -8,11 +8,21 @@ The **Temporal Workflow Helper** is a utility designed to facilitate the submiss
 Before using this tool, make sure you have the following environment variables set up:
 
 - `PORT`: The port number to communicate with Temporal. (e.g., `3778`)
-- `TEMPORAL_SERVER`: The temporal server you already started. Should be your `localhost` or your docker host. (e.g., `localhost:7233`, `temporal:7233`).
-- `TEMPORAL_UI_CLIENT`: Temporal UI client URL.
 - `TEMPORAL_MAIN_PROCESS`: Specify the main process or entry point for your Temporal workflows. Should be `temporal` for localhost or `/root/.temporalio/bin/temporal`, if you're using Docker.
 - `TEMPORAL_EXTERNAL_NETWORK`: Docker only. Especify your temporal network.
-- `NAMESPACE`: Main namespace of your workflows.
+- `CONFIG_TEMPORAL_PATH`: Path to `.config.temporal`. It's optional, only needed when the config file is not in the root folder.
+
+And set your `.config.temporal` file to set your environments with the right parameters.
+```javascript
+[
+    {
+        "environment": "prod", // Your environment slug
+        "namespace": "test_namespace", // Context namespace to this environment
+        "address": "temporal:7233", // Address to your Temporal Server
+        "ui": "http://localhost:8080" // Address to you Temporal UI
+    }
+]
+```
 
 ## Docker
 Use `docker-compose` + `Makefile` to facilitate your experience. Run the command bellow to build and initiate your Helper:
@@ -58,9 +68,11 @@ To install the **Temporal Workflow Helper**, follow these steps:
 
 Once you have installed the **Temporal Workflow Helper**, you can use it as follows:
 
-1. Set the required environment variables (`PORT`, `TEMPORAL_SERVER`, `TEMPORAL_UI_CLIENT`, `TEMPORAL_MAIN_PROCESS`, `TEMPORAL_EXTERNAL_NETWORK`, `NAMESPACE`) in your environment or in a `.env` file. You can copy the main strucuture using `cp .env.example .env`
+1. Set the required environment variables (`PORT`,  `TEMPORAL_MAIN_PROCESS`, `TEMPORAL_EXTERNAL_NETWORK` and/or `CONFIG_TEMPORAL_PATH`) in your environment or in a `.env` file. You can copy the main strucuture using `cp .env.example .env`.
 
-2. Run the TCTL Temporal Helper :
+2. Set an object with a configuration array of each of yours Temporal Servers connections in a `.config.temporal` file. You can copy the main structure using `cp .config.example.temporal .config.temporal`
+
+3. Run the TCTL Temporal Helper :
     - Localhost:
     ```bash
     node .
@@ -72,9 +84,9 @@ Once you have installed the **Temporal Workflow Helper**, you can use it as foll
     #else
     make build
     ```
-3. Access your localhost with your setted `PORT` (e.g, https://localhost:3333)
+4. Access your localhost with your setted `PORT` (e.g, https://localhost:3333)
 
-4. Submit data from the helper UI.
+5. Submit data from the helper UI.
 
 ## Contributing
 
